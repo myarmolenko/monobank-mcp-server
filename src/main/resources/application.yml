@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: monobank-mcp-server
+  main:
+    web-application-type: NONE
+    banner-mode: OFF
+  ai:
+    name: monobank-mcp-server
+    stdio: true
+  capabilities:
+    tool: true
+    resource: true
+    prompt: true
+
+monobank:
+  api-token: ${MONOBANK_API_TOKEN}
+
+logging:
+  level:
+    root: OFF
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+  console:
+    target: System.err
