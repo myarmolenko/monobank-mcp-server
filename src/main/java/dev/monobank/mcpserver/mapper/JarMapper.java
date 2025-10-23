@@ -1,7 +1,9 @@
 package dev.monobank.mcpserver.mapper;
 
+import dev.monobank.mcpserver.configs.CentralMappingConfiguration;
 import dev.monobank.mcpserver.domain.Jar;
 import dev.monobank.mcpserver.dto.JarResponse;
+import dev.monobank.mcpserver.mapper.qualifier.MinorToMajor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -9,18 +11,13 @@ import org.mapstruct.Named;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", config = CentralMappingConfiguration.class)
 public interface JarMapper {
 
-    @Mapping(target = "balance", source = "balance", qualifiedByName = "minorToMajor")
-    @Mapping(target = "goal", source = "goal", qualifiedByName = "minorToMajor")
+    @Mapping(target = "balance", source = "balance", qualifiedBy = MinorToMajor.class)
+    @Mapping(target = "goal", source = "goal", qualifiedBy = MinorToMajor.class)
     @Mapping(target = "progressPercentage", source = ".", qualifiedByName = "calculateProgress")
     Jar toJar(JarResponse jarResponse);
-
-    @Named("minorToMajor")
-    default BigDecimal minorToMajor(BigDecimal amount) {
-        return amount.divide(BigDecimal.valueOf(100));
-    }
 
     @Named("calculateProgress")
     default int calculateProgress(JarResponse jarResponse) {

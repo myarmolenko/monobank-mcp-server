@@ -21,7 +21,7 @@ import static dev.monobank.mcpserver.common.Constants.Cache.METADATA;
 
 @EnableCaching
 @Configuration
-public class CacheConfig {
+public class CacheConfiguration {
 
     @Bean
     @Primary
