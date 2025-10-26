@@ -15,4 +15,12 @@ public final class Constants {
         public static final String PROMPTS = "prompts";
         public static final String METADATA = "metadata";
     }
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static final class Defaults {
+        public static final String DEFAULT_ACCOUNT_ID = "0";
+        public static final int DEFAULT_RETRIEVAL_RANGE_DAYS = 30;
+        public static final long DEFAULT_RETRIEVAL_TO_TIME = 0L;
+
+    }
 }
