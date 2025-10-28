@@ -18,12 +18,12 @@ public class PromptsConfiguration {
     private final PromptResolver promptResolver;
 
     @Bean
-    public List<McpServerFeatures.SyncPromptSpecification> myPrompts(McpServerFeatures.SyncPromptSpecification accountOverviewPromptSpecification) {
+    public List<McpServerFeatures.SyncPromptSpecification> myPrompts(final McpServerFeatures.SyncPromptSpecification accountOverviewPromptSpecification) {
         return List.of(accountOverviewPromptSpecification);
     }
 
     @Bean
-    public McpServerFeatures.SyncPromptSpecification accountOverviewPromptSpecification(McpSchema.Prompt accountOverviewPrompt) {
+    public McpServerFeatures.SyncPromptSpecification accountOverviewPromptSpecification(final McpSchema.Prompt accountOverviewPrompt) {
         return new McpServerFeatures.SyncPromptSpecification(
                 accountOverviewPrompt,
                 (exchange, getPromptRequest) -> {

@@ -15,7 +15,7 @@ public class MonobankMcpServerConfiguration {
     private String monobankApiToken;
 
     @Bean
-    public RestClient monobankRestClient(RestClient.Builder builder) {
+    public RestClient monobankRestClient(final RestClient.Builder builder) {
         return builder.baseUrl("https://api.monobank.ua/")
                 .defaultHeader("Content-Type", "application/json")
                 .defaultHeader("X-Token", monobankApiToken)
@@ -28,7 +28,7 @@ public class MonobankMcpServerConfiguration {
     }
 
     @Bean
-    public ToolCallbackProvider toolCallbackProvider(MonobankToolService monobankToolService) {
+    public ToolCallbackProvider toolCallbackProvider(final MonobankToolService monobankToolService) {
         return MethodToolCallbackProvider.builder()
                 .toolObjects(monobankToolService)
                 .build();

@@ -27,9 +27,9 @@ public class ResourcesConfiguration {
 
     @Bean
     public List<McpServerFeatures.SyncResourceSpecification> monobankResources(
-            McpServerFeatures.SyncResourceSpecification monobankCurrenciesResourceSpecification,
-            McpServerFeatures.SyncResourceSpecification monobankClientInformationResourceSpecification,
-            McpServerFeatures.SyncResourceSpecification monobankStatementsResourceSpecification
+            final McpServerFeatures.SyncResourceSpecification monobankCurrenciesResourceSpecification,
+            final McpServerFeatures.SyncResourceSpecification monobankClientInformationResourceSpecification,
+            final McpServerFeatures.SyncResourceSpecification monobankStatementsResourceSpecification
     ) {
         return List.of(monobankCurrenciesResourceSpecification,
                 monobankClientInformationResourceSpecification,
@@ -37,7 +37,7 @@ public class ResourcesConfiguration {
     }
 
     @Bean
-    public McpServerFeatures.SyncResourceSpecification monobankClientInformationResourceSpecification(McpSchema.Resource monobankClientInformationResource) {
+    public McpServerFeatures.SyncResourceSpecification monobankClientInformationResourceSpecification(final McpSchema.Resource monobankClientInformationResource) {
         return new McpServerFeatures.SyncResourceSpecification(monobankClientInformationResource, (exchange, request) -> {
             ClientInfo clientInfo = monobankService.retrieveClientInformation();
 
@@ -59,7 +59,7 @@ public class ResourcesConfiguration {
     }
 
     @Bean
-    public McpServerFeatures.SyncResourceSpecification monobankCurrenciesResourceSpecification(McpSchema.Resource monobankCurrenciesResource) {
+    public McpServerFeatures.SyncResourceSpecification monobankCurrenciesResourceSpecification(final McpSchema.Resource monobankCurrenciesResource) {
         return new McpServerFeatures.SyncResourceSpecification(monobankCurrenciesResource, (exchange, request) -> {
             List<Currency> currencies = monobankService.retrieveCurrencies();
 
@@ -83,7 +83,7 @@ public class ResourcesConfiguration {
     }
 
     @Bean
-    public McpServerFeatures.SyncResourceSpecification monobankStatementsResourceSpecification(McpSchema.Resource monobankStatementsResource) {
+    public McpServerFeatures.SyncResourceSpecification monobankStatementsResourceSpecification(final McpSchema.Resource monobankStatementsResource) {
         return new McpServerFeatures.SyncResourceSpecification(monobankStatementsResource, (exchange, request) -> {
             List<Statement> statements = monobankService.retrieveStatements();
 
