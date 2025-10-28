@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.monobank.mcp</groupId>
 	<artifactId>monobank-mcp-server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>monobank-mcp-server</name>
 	<description>MCP server that integrates with Monobank API</description>
 	<url/>
