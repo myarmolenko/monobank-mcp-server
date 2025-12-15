@@ -1,11 +1,12 @@
-package dev.monobank.mcpserver.service;
+package dev.monobank.mcpserver.provider;
 
 import dev.monobank.mcpserver.domain.ClientInfo;
 import dev.monobank.mcpserver.domain.Currency;
 import dev.monobank.mcpserver.domain.Statement;
+import dev.monobank.mcpserver.service.MonobankService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
+import org.springaicommunity.mcp.annotation.McpTool;
+import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -15,16 +16,15 @@ import java.util.List;
 import java.util.Optional;
 
 import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_ACCOUNT_ID;
-import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_RETRIEVAL_TO_TIME;
 import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_RETRIEVAL_RANGE_DAYS;
+import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_RETRIEVAL_TO_TIME;
 
 @Service
 @RequiredArgsConstructor
-public class MonobankToolService {
-
+public class ToolProvider {
     private final MonobankService monobankService;
 
-    @Tool(
+    @McpTool(
             name = "retrieve_all_currencies",
             description = "Retrieves all currencies from Monobank API"
     )
@@ -32,7 +32,7 @@ public class MonobankToolService {
         return monobankService.retrieveCurrencies();
     }
 
-    @Tool(
+    @McpTool(
             name = "retrieve_client_information",
             description = "Retrieves client information from Monobank API"
     )
@@ -40,7 +40,7 @@ public class MonobankToolService {
         return monobankService.retrieveClientInformation();
     }
 
-    @Tool(
+    @McpTool(
             name = "retrieve_statements",
             description = """
                     Retrieve a list of statements between fromTime and toTime (Unix epoch seconds, UTC).
@@ -53,9 +53,9 @@ public class MonobankToolService {
                     """
     )
     public List<Statement> retrieveClientStatements(
-            @ToolParam(required = false, description = "Monobank accountId ID (\"0\" for main);") final String accountId,
-            @ToolParam(required = false, description = "Start time in Unix epoch seconds (UTC);") final Long fromTime,
-            @ToolParam(required = false, description = "End time in Unix epoch seconds (UTC);") final Long toTime
+            @McpToolParam(required = false, description = "Monobank accountId ID (\"0\" for main);") final String accountId,
+            @McpToolParam(required = false, description = "Start time in Unix epoch seconds (UTC);") final Long fromTime,
+            @McpToolParam(required = false, description = "End time in Unix epoch seconds (UTC);") final Long toTime
     ) {
         final String effectiveAccount = Optional.ofNullable(accountId)
                 .filter(id -> !id.isBlank())

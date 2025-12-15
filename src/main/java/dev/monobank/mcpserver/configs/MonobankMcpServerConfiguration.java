@@ -1,8 +1,5 @@
 package dev.monobank.mcpserver.configs;
 
-import dev.monobank.mcpserver.service.MonobankToolService;
-import org.springframework.ai.tool.ToolCallbackProvider;
-import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,12 +22,5 @@ public class MonobankMcpServerConfiguration {
     @Bean
     public RestClient.Builder restClientBuilder() {
         return RestClient.builder();
-    }
-
-    @Bean
-    public ToolCallbackProvider toolCallbackProvider(final MonobankToolService monobankToolService) {
-        return MethodToolCallbackProvider.builder()
-                .toolObjects(monobankToolService)
-                .build();
     }
 }
