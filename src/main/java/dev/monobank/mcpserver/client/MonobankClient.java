@@ -4,6 +4,7 @@ import dev.monobank.mcpserver.common.Constants;
 import dev.monobank.mcpserver.dto.ClientInfoResponse;
 import dev.monobank.mcpserver.dto.CurrencyResponse;
 import dev.monobank.mcpserver.dto.StatementResponse;
+import dev.monobank.mcpserver.exception.MonobankRateLimitException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
@@ -50,13 +51,17 @@ public class MonobankClient {
     public List<StatementResponse> retrieveStatements(final String account, final Long fromTime, final Long toTime) {
         return monobankRestClient.get()
                 .uri(uriBuilder -> {
-                    uriBuilder.path("/personal/statement/{account}/{from}");
-                    if (toTime != null && toTime != 0) {
-                        uriBuilder.path("/{to}");
+                    var base = uriBuilder.path("/personal/statement/{account}/{from}");
+                    if (toTime != null) {
+                        base.path("/{to}");
+                        return base.build(account, fromTime, toTime);
                     }
-                    return uriBuilder.build(account, fromTime, toTime);
+                    return base.build(account, fromTime);
                 })
                 .retrieve()
+                .onStatus(status -> status.value() == 429, (req, res) -> {
+                    throw new MonobankRateLimitException("Monobank statement rate limit hit (allowed: 1 request / 60 sec).");
+                })
                 .body(new ParameterizedTypeReference<>() {});
     }
 }

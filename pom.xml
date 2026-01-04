@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.monobank.mcp</groupId>
 	<artifactId>monobank-mcp-server</artifactId>
-	<version>0.1.0</version>
+	<version>0.2.0</version>
 	<name>monobank-mcp-server</name>
 	<description>MCP server that integrates with Monobank API</description>
 	<url/>
@@ -28,7 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<spring-ai.version>1.0.2</spring-ai.version>
+		<spring-ai.version>1.1.2</spring-ai.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -62,6 +62,11 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.joestelmach</groupId>
+			<artifactId>natty</artifactId>
+			<version>0.13</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>

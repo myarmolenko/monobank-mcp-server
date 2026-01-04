@@ -1,8 +1,6 @@
 package dev.monobank.mcpserver.configs;
 
-import dev.monobank.mcpserver.service.MonobankToolService;
-import org.springframework.ai.tool.ToolCallbackProvider;
-import org.springframework.ai.tool.method.MethodToolCallbackProvider;
+import com.joestelmach.natty.Parser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,9 +26,7 @@ public class MonobankMcpServerConfiguration {
     }
 
     @Bean
-    public ToolCallbackProvider toolCallbackProvider(final MonobankToolService monobankToolService) {
-        return MethodToolCallbackProvider.builder()
-                .toolObjects(monobankToolService)
-                .build();
+    public Parser parser() {
+        return new Parser();
     }
 }

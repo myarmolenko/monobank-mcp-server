@@ -13,9 +13,9 @@
     <a href="https://github.com/yarmmak/monobank-mcp-server/releases" target="_blank" style="margin: 2px;">
         <img alt="GitHub release" src="https://img.shields.io/github/v/release/yarmmak/monobank-mcp-server" style="display: inline-block; vertical-align: middle;"/>
     </a>
-    <a href="https://github.com/SaseQ/discord-mcp/blob/main/LICENSE" target="_blank" style="margin: 2px;">
-        <img alt="MIT License" src="https://img.shields.io/github/license/SaseQ/discord-mcp" style="display: inline-block; vertical-align: middle;"/>
-    </a>
+    <a href="https://github.com/yarmmak/monobank-mcp-server/blob/main/LICENSE" target="_blank" style="margin: 2px;">
+         <img alt="MIT License" src="https://img.shields.io/github/license/yarmmak/monobank-mcp-server" style="display: inline-block; vertical-align: middle;"/>
+   </a>
 </div>
 
 ## About
@@ -35,9 +35,11 @@ Claude Desktop and other MCP-compatible applications through [Monobank's officia
 
 ## Prerequisites
 
-To use this MCP server, you need to:
-- Have a Monobank account
-- Obtain an API access token by logging into your personal account at [Monobank API Portal](https://api.monobank.ua)
+To use this MCP server, you need:
+- A Monobank account
+- API access token (obtain from [Monobank API Portal](https://api.monobank.ua))
+- Claude Desktop or another MCP-compatible client
+- (For Docker method) Docker installed on your system
 
 ## Getting Started
 
@@ -129,14 +131,24 @@ Once configured, the MCP server provides the following tools, resources and prom
 
 <details open>
     <summary style="font-size: 1.2em; font-weight: bold;">
-        🛠️ Tools
+        🏦 Monobank Tools
     </summary>
 
-Tools that can be invoked from AI conversations:
+Core tools for accessing Monobank banking services:
 
 - **`retrieve_all_currencies`** - Get current exchange rates for all currencies from Monobank
-- **`retrieve_client_information`** - Retrieve your accounts information, balance, and card details
-- **`retrieve_statements`** - Fetch transaction history for a specified period (up to 31 days)
+- **`retrieve_client_information`** - Retrieve your Monobank account information, balance, and card details
+- **`retrieve_statements`** - Fetch transaction history for a specified account and time period (up to 31 days)
+
+</details>
+<details>
+    <summary style="font-size: 1.2em; font-weight: bold;">
+        🛠️ Utility Tools
+    </summary>
+
+Helper tools to enhance functionality:
+
+- **`resolve_time_to_epoch`** - Parse natural-language date/time expressions (like "two weeks ago" or "December 1, 2025") and convert them to Unix epoch timestamps for use with statement retrieval
 
 </details>
 <details>
@@ -144,11 +156,13 @@ Tools that can be invoked from AI conversations:
         📚 Resources
     </summary>
 
-Structured resources accessible via URI:
+Structured resources that can be attached to conversations to give Claude context about your account:
 
-- **`monobank://bank/currency`** - Public currency rates (cached by bank ~5 min)
-- **`monobank://personal/client-info`** - Your personal account information
-- **`monobank://personal/statements`** - Transaction statements data
+- **`monobank://bank/currency-rates`** - Real-time exchange rates for all currency pairs (cached by bank ~5 min)
+- **`monobank://personal/client-info`** - Your complete account profile, balances, and card information
+- **`monobank://personal/statements`** - Recent transaction history from your primary account
+
+*Resources are automatically available when needed, or you can explicitly reference them in your queries.*
 
 </details>
 <details>
@@ -158,24 +172,42 @@ Structured resources accessible via URI:
 
 Pre-configured prompt templates for common use cases:
 
-- **`monobank://account-overview`** - Generates a comprehensive overview of your Monobank account
+- **`Account Overview`** - Generates a comprehensive overview of your Monobank account, including balances and recent activity
+- **`Interpret Monobank Statements`** - Provides rules for analyzing and reasoning about transaction statements
+- **`Interpret Monobank Currency Record`** - Guidelines for understanding currency exchange rate data
+- **`Interpret Monobank Client Information`** - Instructions for interpreting account, jar, and client profile data
+
+*Prompts help Claude better understand and analyze your Monobank data with domain-specific context.*
 
 </details>
 
-## Example Usage in Claude
+## Example Usage
 
-Simply ask Claude questions like:
-- "What's my current account balance?"
-- "Show me my transactions from last month"
-- "What's the current USD to UAH exchange rate?"
+**Check your spending this month:**
+```
+"Show me my transactions from the beginning of this month"
+→ Automatically converts time expressions and fetches your statements
+```
 
-Claude will use the MCP server to fetch the relevant data from your Monobank account.
+**Monitor exchange rates:**
+```
+"What's the current USD to UAH exchange rate?"
+→ Retrieves live exchange rates from Monobank
+```
+
+**Generate a financial summary:**
+```
+"Summarize my spending for the last two weeks"
+→ Analyzes your recent transactions and provides insights
+```
 
 ## Important Notes
 
 > **⚠️ Security**: Keep your API token private and never share it publicly. It provides access to your personal banking data.
 
 > **🔒 Read-Only**: This server provides read-only access to your Monobank data. It cannot perform transactions or modify your account.
+
+> **⏱️ Rate Limits**: Monobank API has rate limits. Avoid making excessive requests in short periods. 
 
 ## Disclaimer
 
