@@ -16,7 +16,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_ACCOUNT_ID;
-import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_RETRIEVAL_TO_TIME;
 import static dev.monobank.mcpserver.common.Constants.Defaults.DEFAULT_RETRIEVAL_RANGE_DAYS;
 
 @Service
@@ -38,7 +37,7 @@ public class MonobankService {
 
     public List<Statement> retrieveStatements() {
         final long fromTime = Instant.now().minus(DEFAULT_RETRIEVAL_RANGE_DAYS, ChronoUnit.DAYS).toEpochMilli();
-        return retrieveStatements(DEFAULT_ACCOUNT_ID, fromTime, DEFAULT_RETRIEVAL_TO_TIME);
+        return retrieveStatements(DEFAULT_ACCOUNT_ID, fromTime, null);
     }
 
     public List<Statement> retrieveStatements(final String account, final Long fromTime, final Long toTime) {
