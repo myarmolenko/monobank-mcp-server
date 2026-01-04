@@ -18,7 +18,7 @@ import static dev.monobank.mcpserver.prompt.PromptEnum.INTERPRET_MONOBANK_STATEM
 public class PromptProvider {
     private final PromptResolver promptResolver;
 
-    @McpPrompt(name = "account-overview", description = "Generates an overview of a user’s Monobank account")
+    @McpPrompt(name = "Account Overview", description = "Generates a comprehensive overview of a user's Monobank account")
     public GetPromptResult accountOverviewPrompt() {
         return new GetPromptResult("Personalized Account Overview",
                 List.of(
